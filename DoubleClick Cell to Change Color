@@ -1,0 +1,29 @@
+Private Sub Worksheet_BeforeDoubleClick(ByVal Target As Range, Cancel As Boolean)
+Dim rng As Range
+Cancel = True
+Set rng = ActiveSheet.Range("B19:x62") '<--- change range
+If Target.Cells.Count > 1 Then Exit Sub
+If Intersect(Target, rng) Is Nothing Then Exit Sub
+Select Case Target.Interior.ColorIndex
+Case xlNone, 4: Target.Interior.ColorIndex = 3
+Case 3: Target.Interior.ColorIndex = 23
+Case 23: Target.Interior.ColorIndex = 44
+Case 44: Target.Interior.ColorIndex = 6
+Case 6: Target.Interior.ColorIndex = 43
+'Case 6: Target.Interior.ColorIndex = 43
+Case 43: Target.Interior.ColorIndex = 33
+Case 33: Target.Interior.ColorIndex = 19
+Case 19: Target.Interior.ColorIndex = 18
+Case 18: Target.Interior.ColorIndex = 16
+Case 16: Target.Interior.ColorIndex = 20
+Case Else: Target.Interior.ColorIndex = xlNone
+End Select
+End Sub
+
+Private Sub Worksheet_BeforeRightClick(ByVal Target As Range, Cancel As Boolean)
+Cancel = True
+Target.Interior.ColorIndex = xlNone
+End Sub
+
+
+'right click tab, view code, insert code
