@@ -1,0 +1,1 @@
+=MID(CELL("filename",A1),FIND("]",CELL("Filename",A1))+1,31)
