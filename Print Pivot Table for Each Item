@@ -1,0 +1,40 @@
+The following code will print the pivot table once for each item in the first Report Filter field. Use the PrintPreview line for testing. When ready to print, remove the apostrophe from the beginning of the ActiveSheet.PrintOut line, and add an apostrophe to the beginning of the ActiveSheet.PrintPreview line.
+
+Option Explicit
+
+Sub PrintPivotForList()
+'downloaded from contextures.com
+'print pivot table for
+'products in list
+Dim ws As Worksheet
+Dim wsL As Worksheet
+Dim pt As PivotTable
+Dim pi As PivotItem
+Dim str As String
+Dim rng As Range
+Dim c As Range
+Set ws = ActiveSheet
+Set wsL = Worksheets("Lists") 'change for page with Lists
+Set pt = ws.PivotTables(1)
+Set rng = wsL.Range("ProductPrint") 'create formula name for list 
+
+For Each c In rng
+  Set pi = Nothing
+  str = c.Value
+  With pt.PageFields("Verifying Provider") 'set as pivot table filter
+    On Error Resume Next
+    Set pi = .PivotItems(str)
+    On Error GoTo 0
+    If pi Is Nothing Then
+      Debug.Print str & " was NOT printed"
+    Else
+      .CurrentPage = str
+      ws.PrintOut Preview:=False
+   'ActiveSheet.PrintOut  'for printing
+  'ActiveSheet.PrintPreview  'for testing
+      
+    End If
+  End With
+Next c
+
+End Sub
