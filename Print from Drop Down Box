@@ -1,0 +1,15 @@
+Sub PrintfromDVList()
+    Dim ws As Worksheet
+    Dim i As Long
+    
+    Set ws = Sheets("LOCATIONS") 'set as page with names
+    
+        For i = 1 To ws.Cells(Rows.Count, "A").End(xlUp).Row 'location of names
+            With Sheets("Form") 'set as page to print
+                .Range("B2").Value = ws.Cells(i, "A").Value 'location of drop down on printable sheet = location of names to print
+                .PrintPreview 'Change to PrintOut after testing
+                '.PrintOut
+            End With
+        Next i
+            
+End Sub
