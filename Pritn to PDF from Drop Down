@@ -1,0 +1,64 @@
+Sub PrintfromDVList()
+
+Dim ws As Worksheet
+Dim i As Long
+Dim wsA As Worksheet
+Dim wbA As Workbook
+Dim strName As String
+Dim strPath As String
+Dim strFile As String
+Dim strPathFile As String
+Dim myFile As Variant
+'On Error GoTo errHandler
+
+Set wbA = ActiveWorkbook
+Set wsA = ActiveSheet
+
+    Set ws = Sheets("Data") 'set as page with names
+    
+        For i = 6 To ws.Cells(Rows.Count, "A").End(xlUp).Row 'location of names
+            With Sheets("Graph") 'set as page to print
+                .Range("A1").Value = ws.Cells(i, "A").Value 'location of drop down on printable sheet
+
+'get active workbook folder, if saved
+strPath = wbA.Path
+If strPath = "" Then
+  strPath = Application.DefaultFilePath
+End If
+strPath = strPath & "\"
+
+strName = wsA.Range("A1").Value _
+          & " - " & wsA.Range("A2").Value _
+          & " - " & wsA.Range("A3").Value
+
+'create default name for savng file
+strFile = strName & ".pdf"
+strPathFile = strPath & strFile
+
+'export to PDF in current folder
+    wsA.ExportAsFixedFormat _
+        Type:=xlTypePDF, _
+        Filename:=strPathFile, _
+        Quality:=xlQualityStandard, _
+        IncludeDocProperties:=True, _
+        IgnorePrintAreas:=False, _
+        OpenAfterPublish:=False
+    'confirmation message with file info
+ '   MsgBox "PDF file has been created: " _
+ '     & vbCrLf _
+ '     & strPathFile
+
+'exitHandler:
+ '   Exit Sub
+    
+'errHandler:
+ '   MsgBox "Could not create PDF file"
+  '  Resume exitHandler
+   
+
+                '.PrintPreview 'Change to PrintOut after testing
+                '.PrintOut
+            End With
+        Next i
+            
+End Sub
